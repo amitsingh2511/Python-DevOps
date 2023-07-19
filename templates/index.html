@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit JSON Data</title>
+</head>
+<body>
+    <h1>Enter JSON data:</h1>
+    <textarea id="jsonInput" rows="10" cols="50">
+
+    </textarea>
+    <br>
+    <button onclick="submitData()">Submit</button>
+    <ul id="myList">
+      </ul>
+
+    <script>
+        let apiResponse={}
+        function submitData() {
+            const jsonData = document.getElementById("jsonInput").value;
+            fetch('/submit/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const node = document.createElement("li");
+                const textnode = document.createTextNode(JSON.stringify(data));
+                node.appendChild(textnode);
+                document.getElementById("myList").appendChild(node);
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
